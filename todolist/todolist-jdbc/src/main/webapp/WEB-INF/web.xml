@@ -19,8 +19,9 @@
     <servlet>
         <servlet-name>Jersey REST Service</servlet-name>
         <servlet-class>
-            com.sun.jersey.spi.container.servlet.ServletContainer
+            org.glassfish.jersey.servlet.ServletContainer
         </servlet-class>
+        <!--com.sun.jersey.spi.container.servlet.ServletContainer-->
         <init-param>
             <param-name>com.sun.jersey.config.property.packages</param-name>
             <param-value>org.openshift.quickstarts.todolist.rest</param-value>
