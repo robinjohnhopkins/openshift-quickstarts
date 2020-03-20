@@ -49,8 +49,8 @@
         <version.war.plugin>2.1.1</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.6</maven.compiler.target>
-        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
 
         <jboss-servlet-api_3.0_spec.version>1.0.0.Final</jboss-servlet-api_3.0_spec.version>
     </properties>
@@ -66,6 +66,12 @@
             <version>${jboss-servlet-api_3.0_spec.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -87,6 +93,14 @@
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
                 <version>${version.jboss.maven.plugin}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
