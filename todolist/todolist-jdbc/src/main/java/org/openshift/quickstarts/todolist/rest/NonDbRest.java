@@ -4,9 +4,7 @@ package org.openshift.quickstarts.todolist.rest;
 
 import org.openshift.quickstarts.todolist.service.Find;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
+import javax.json.*;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -61,7 +59,7 @@ public class NonDbRest {
 
     @Path("/files")
     @GET
-    public JsonArray files(@QueryParam("dir") String dir,
+    public JsonObject files(@QueryParam("dir") String dir,
                            @QueryParam("pattern") String pattern) throws IOException {
 
         JsonArrayBuilder array = Json.createArrayBuilder();
@@ -79,7 +77,10 @@ public class NonDbRest {
 
         // Java 8
         listFileStrings.forEach((k) -> array.add(k));
-        return array.build();
+        JsonObject object = Json.createObjectBuilder()
+            .add("files",array.build())
+            .build();
+        return object;
     }
 
 }
