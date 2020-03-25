@@ -1,7 +1,6 @@
 package org.openshift.quickstarts.todolist.rest;
 
 
-
 import org.openshift.quickstarts.todolist.service.Find;
 
 import javax.json.*;
