@@ -322,13 +322,30 @@ type: Opaque
 
 ## Run standalone server using potentially self signed certs that rest call can connect to
 
+You will have to open up a port to forward in your router if running locally.
+
 ```
 java -cp  /Users/robinjohnhopkins/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.64/bcprov-jdk15on-1.64.jar:cmdlineserver/target/cmdlineserver.jar org.openshift.quickstarts.todolist.stuff.ClassFileServer 32000 . TLS true /Users/robinjohnhopkins/workspace/openshift-quickstarts/openshift-quickstarts/todolist/keystore.jks password
 ```
 
 Also ensure certs are available on docker instance and declare env variables that rest call uses to secure outgoing connection:
 
-CACERTFILENAME
-CLIENTCERTFILENAME
-CLIENTKEYFILENAME
+CACERTFILENAME=/etc/jws-secret-volume/server.crt
+CLIENTCERTFILENAME=/etc/jws-secret-volume/server.crt
+CLIENTKEYFILENAME/etc/jws-secret-volume/server.key
 
+This test was done with self signed certs used by both sender and destination.
+But obviously can be used with real certs. :)
+
+Then the test url is
+
+http://jws-app-tomtest.apps.ca-central-1.starter.openshift-online.com/rest/ssl/call?host=<routerip>&port=32000&file=myfile
+
+The default file is README.md and this must be present in the dir that above ClassFileServer is running from.
+The content of the file is returned.
+e.g.
+
+```
+{"result":{"valueType":"STRING","string":"HTTP/1.0 200 OKContent-Length: 16379Content-Type: text/html## Part 1. JBoss Web Server 3.1 Apache Tomcat 8 + MySQL 
+...
+```
