@@ -28,9 +28,11 @@ spec:
       memory: “1000Mi"
 ```
 
+There is a requirement for secret jws-app-secret, without which openshift will not standup the app.
 
-created a web hook secret to see that http can work though https wont
-jws-app-secret
+Create a web hook secret jws-app-secret (that wont be used) to see that the http route can work.
+NB the https route will not work at this stage.
+
 
 http://jws-app-tomtest.apps.ca-central-1.starter.openshift-online.com/index.html
 
@@ -45,19 +47,25 @@ Create route
 	TLS termination: Edge
 	insecure traffic: none
 ```
-Then we have a secure site edge terminated
+
+Then we can create/have a secure site edge terminated route
 
 https://ownhttps-tomtest.apps.ca-central-1.starter.openshift-online.com/index.html
 
+We can also create an https route (ensuring total name length <= 65 chars)
+Create a self signed cert for this.
+
 ```
+# my first attempt failed as too long
 secure-jws-app-tomtest.apps.ca-central-1.starter.openshift-online.com
+# this one was better
 sr-tomtest.apps.ca-central-1.starter.openshift-online.com
 123456789 123456789 123456789 123456789 123456789 123456789 12345 max 65 chars 
 ```
 
 https://www.selfsignedcertificate.com/
 
-once you have the self signed cert you base64 encode then alter the secret as follows
+once you have the self signed cert you base64 encode then alter the secure-jws-app secret as follows
 
 ```
 kind: Secret
@@ -77,7 +85,7 @@ data:
 type: Opaque
 ```
 
-I also had to create a new route ensuring the generated name was not > 65 chars I chose sr prefix but needed to remove port and use secure-jws-app
+Incidentally, I also had to create a new route ensuring the generated name was not > 65 chars I chose sr prefix but needed to remove port and use secure-jws-app
  
 ```
 spec:
@@ -99,6 +107,7 @@ wget --no-check-certificate  https://sr-tomtest.apps.ca-central-1.starter.opensh
 ```
 
 however, safari and chrome on mac weren’t trusting which is a good thing
+But it shows what you would need to do with a real cert.
 
 ## Add tag to commit point
 
@@ -116,7 +125,7 @@ git push  --tags origin
 
 ## REST end point
 
-to see code diff to get REST point working
+Use above tags, to see code diff to get REST point working.
 
 [compare](https://github.com/robinjohnhopkins/openshift-quickstarts/compare/startPoint...robinjohnhopkins:restpointWorking)
 
@@ -310,7 +319,7 @@ data:
 type: Opaque
 ```
 
-## create keystore:
+## create keystore from pems:
 
 ```
       pwd
@@ -349,3 +358,8 @@ e.g.
 {"result":{"valueType":"STRING","string":"HTTP/1.0 200 OKContent-Length: 16379Content-Type: text/html## Part 1. JBoss Web Server 3.1 Apache Tomcat 8 + MySQL 
 ...
 ```
+
+## What we have done
+We have explored running wildfly app in online openshift with differing SSL.
+Additionally we have added a test end point that makes an outgoing SSL connection.
+Thus two way SSL with not necessarily the same cert used to stand up the server as used in the outgoing connection.
