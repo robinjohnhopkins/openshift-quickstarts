@@ -16,19 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import java.util.logging.Logger;
 
 @Path("rest")
 @Produces(MediaType.APPLICATION_JSON)
 public class NonDbRest {
 
-//    @Path("/task")
-//    @GET
-//    public Task getATask() {
-//       Task task = new Task();
-//       task.setId(11L);
-//       task.setTitle("my tasky wask");
-//       return task;
-//    }
+    private final static Logger LOGGER = Logger.getLogger(NonDbRest.class.getName());
 
     @GET
     public String getAString() {
@@ -38,6 +32,9 @@ public class NonDbRest {
     @Path("/numbers")
     @GET
     public JsonArray numbers() {
+        LOGGER.fine("numbers");
+        LOGGER.fine("numbers");
+
         JsonArrayBuilder array = Json.createArrayBuilder();
         Stream<String> numberStream = Stream.generate(System::currentTimeMillis).
                 map(String::valueOf).
@@ -49,6 +46,8 @@ public class NonDbRest {
     @Path("/env")
     @GET
     public JsonArray env() {
+        LOGGER.info("env");
+
         JsonArrayBuilder array = Json.createArrayBuilder();
         Map<String, String> env = System.getenv();
         // Java 8

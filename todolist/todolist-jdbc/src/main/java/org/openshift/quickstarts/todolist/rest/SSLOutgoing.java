@@ -15,11 +15,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.io.*;
-
+import java.util.logging.Logger;
 
 @Path("ssl")
 @Produces(MediaType.APPLICATION_JSON)
 public class SSLOutgoing {
+
+    private final static Logger LOGGER = Logger.getLogger(SSLOutgoing.class.getName());
 
     @Path("/call")
     @GET
@@ -30,11 +32,13 @@ public class SSLOutgoing {
         String CACERTFILENAME = System.getenv("CACERTFILENAME");
         String CLIENTCERTFILENAME = System.getenv("CLIENTCERTFILENAME");
         String CLIENTKEYFILENAME = System.getenv("CLIENTKEYFILENAME");
+        LOGGER.info("makeOutgoingSSLCall " + host);
+        LOGGER.info("makeOutgoingSSLCall " + port);
         StringBuilder sb = new StringBuilder();
         boolean error = false;
         int portNumeric = 32000;
         if (port != null && !port.isEmpty()){
-            portNumeric = Integer.getInteger(port);
+            portNumeric = Integer.valueOf(port);
         }
         if (file == null || file.isEmpty()){
             file = "README.md";
