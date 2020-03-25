@@ -32,7 +32,10 @@ public class SSLOutgoing {
         String CLIENTKEYFILENAME = System.getenv("CLIENTKEYFILENAME");
         StringBuilder sb = new StringBuilder();
         boolean error = false;
-        int portNumeric = Integer.getInteger(port);
+        int portNumeric = 32000;
+        if (port != null && !port.isEmpty()){
+            portNumeric = Integer.getInteger(port);
+        }
         if (file == null || file.isEmpty()){
             file = "README.md";
         }
