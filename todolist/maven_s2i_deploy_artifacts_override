@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "===== maven_s2i_deploy_artifacts_override "
