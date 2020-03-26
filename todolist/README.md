@@ -363,3 +363,43 @@ e.g.
 We have explored running wildfly app in online openshift with differing SSL.
 Additionally we have added a test end point that makes an outgoing SSL connection.
 Thus two way SSL with not necessarily the same cert used to stand up the server as used in the outgoing connection.
+
+
+## Modify build and deploy
+
+In src see
+```
+  todolist-jdbc/.s2i/bin/assemble
+  
+in log:
+
+    STEP 9: RUN /tmp/scripts/assemble
+    ====== Before assembling
+    /usr/libexec/s2i/assemble is dir in SOME s2i but real openshift 4 is /usr/local/s2i/assemble
+
+
+    INFO Copying deployments from target to /deployments...
+    INFO Copying configuration from .s2i/bin to /opt/webserver/conf...
+    INFO S2I_TARGET_DATA_DIR does not exist, creating /opt/webserver/data
+    INFO Copying app data from data to /opt/webserver/data...
+    mydata.txt
+    INFO Copying deployments from deployments to /deployments...
+    '/tmp/src/deployments/ROOT.war' -> '/deployments/ROOT.war'
+    ====== After successful assembling
+```
+
+for ability to modify assembly scripts!
+
+similarly we can alter the run, potentially with some pre-configuration then run intended run script
+
+```
+  todolist-jdbc/.s2i/bin/run
+  
+  
+in log:
+    Before running application
+    exec /usr/libexec/s2i/run is run script on SOME openshift images, However
+    from build log we see real openshift run script is: STEP 9: CMD /usr/local/s2i/run  
+```
+
+
