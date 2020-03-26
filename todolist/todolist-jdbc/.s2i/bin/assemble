@@ -1,7 +1,9 @@
 #!/bin/bash
 echo "====== Before assembling"
 
-/usr/libexec/s2i/assemble
+echo /usr/libexec/s2i/assemble  is dir in SOME s2i but real openshift 4 is /usr/local/s2i/assemble
+
+/usr/local/s2i/assemble
 rc=$?
 
 if [ $rc -eq 0 ]; then
