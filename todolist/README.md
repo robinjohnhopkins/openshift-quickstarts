@@ -402,4 +402,19 @@ in log:
     from build log we see real openshift run script is: STEP 9: CMD /usr/local/s2i/run  
 ```
 
+I have also added a data dir which can be seen from a terminal in the running container:
+
+```
+    cat /opt/webserver/data/mydata.txt 
+    my data
+```
+
+For tomcat apache then this dir and xml is key and could be tweaked on startup.
+
+/opt/webserver/conf/server.xml
+
+The tweaked startup scripts could potentially do something with files in conf dir.
+ 
+/tmp/src/conf/myconf.txt
+
 
